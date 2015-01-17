@@ -9,6 +9,11 @@ RUN yum -y install git
 RUN yum -y install mercurial
 RUN yum clean all
 
+RUN useradd docker
+USER docker
+WORKDIR /home/docker
+
+RUN whoami
 
 # Setup Node.js
 # Install nvm
