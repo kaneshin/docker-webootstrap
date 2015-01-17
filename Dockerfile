@@ -9,25 +9,19 @@ RUN yum -y install git
 RUN yum -y install mercurial
 RUN yum clean all
 
-RUN useradd docker
-USER docker
-WORKDIR /home/docker
 
 # Setup Node.js
 # Install nvm
-RUN git clone https://github.com/creationix/nvm.git ~/.nvm && cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`
-RUN echo '[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh' >> ~/.bashrc
-RUN /bin/bash -c 'source ~/.nvm/nvm.sh'
+RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.22.2/install.sh | bash
+RUN echo '[[ -s /root/.nvm/nvm.sh ]] && . /root/.nvm/nvm.sh' > /etc/profile.d/nvm.sh
+RUN echo '. /root/.nvm/nvm.sh' | bash -l
 
 # Install nodejs
-RUN /bin/bash -c 'nvm install v0.10.32'
-RUN echo 'nvm alias default v0.10.32' >> ~/.bash_profile
-RUN echo 'nvm use default' >> ~/.bash_profile
-RUN /bin/bash -c 'nvm alias default v0.10.32'
-RUN /bin/bash -c 'nvm use default'
+RUN echo 'nvm install 0.10.32' | bash -l
+RUN echo 'nvm alias default 0.10.32' | bash -l
 
 # Install Bower & Gulp
-RUN /bin/bash -c 'npm install -g bower gulp'
+RUN echo 'npm install -g bower gulp' | bash -l
 
 
 # Setup Ruby
