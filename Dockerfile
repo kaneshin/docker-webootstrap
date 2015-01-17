@@ -8,6 +8,9 @@ RUN yum -y groupinstall "Development Tools";
 RUN yum -y install git
 RUN yum -y install mercurial
 RUN yum -y install openssl-devel
+RUN yum -y install libaio
+RUN yum -y install net-tools
+RUN yum -y install wget
 RUN yum clean all
 
 
@@ -68,8 +71,9 @@ WORKDIR /tmp
 RUN wget http://downloads.mysql.com/archives/get/file/MySQL-5.6.21-1.el7.x86_64.rpm-bundle.tar
 RUN tar -xvf MySQL-5.6.21-1.el7.x86_64.rpm-bundle.tar
 RUN rpm -Uvh MySQL-client-5.6.21-1.el7.x86_64.rpm
-RUN rpm -Uvh MySQL-server-5.6.21-1.el7.x86_64.rpm
+RUN rpm -Uvh --force MySQL-server-5.6.21-1.el7.x86_64.rpm 
 WORKDIR /root
+RUN service mysql start
 
 
 # Define default command.
