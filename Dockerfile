@@ -17,17 +17,17 @@ WORKDIR /home/docker
 # Install nvm
 RUN git clone https://github.com/creationix/nvm.git ~/.nvm && cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`
 RUN echo '[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh' >> ~/.bashrc
-RUN source ~/.nvm/nvm.sh
+RUN /bin/bash -c 'source ~/.nvm/nvm.sh'
 
 # Install nodejs
-RUN nvm install v0.10.32
+RUN /bin/bash -c 'nvm install v0.10.32'
 RUN echo 'nvm alias default v0.10.32' >> ~/.bash_profile
 RUN echo 'nvm use default' >> ~/.bash_profile
-RUN nvm alias default v0.10.32
-RUN nvm use default
+RUN /bin/bash -c 'nvm alias default v0.10.32'
+RUN /bin/bash -c 'nvm use default'
 
 # Install Bower & Gulp
-RUN npm install -g bower gulp
+RUN /bin/bash -c 'npm install -g bower gulp'
 
 
 # Setup Ruby
