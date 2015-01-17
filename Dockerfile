@@ -35,7 +35,7 @@ RUN echo 'export PATH="/root/.rbenv/bin:$PATH"' >> /root/.bash_profile
 ENV PATH /root/.rbenv/bin:$PATH
 
 RUN echo 'eval "$(rbenv init -)"' > /etc/profile.d/rbenv.sh
-RUN eval "$(rbenv init -)"
+RUN echo 'eval "$(rbenv init -)"' | bash -l
 
 # Install ruby
 RUN echo 'rbenv install 2.1.5' | bash -l
@@ -47,19 +47,19 @@ RUN echo 'gem install bundler' | bash -l
 
 
 # Setup Go
-RUN mkdir -p ~/goroot && curl https://storage.googleapis.com/golang/go1.3.3.linux-amd64.tar.gz | tar xvzf - -C ~/goroot --strip-components=1
-RUN mkdir -p ~/gopath
-RUN echo 'export GOROOT=~/goroot' >> ~/.bash_profile
-RUN echo 'export GOPATH=~/gopath' >> ~/.bash_profile
-RUN echo 'export PATH=$PATH:$GOROOT/bin:$GOPATH/bin' >> ~/.bash_profile
-RUN export GOROOT=~/goroot
-RUN export GOPATH=~/gopath
-RUN export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+RUN mkdir -p /root/goroot && curl https://storage.googleapis.com/golang/go1.3.3.linux-amd64.tar.gz | tar xvzf - -C /root/goroot --strip-components=1
+RUN mkdir -p /root/gopath
+RUN echo 'export GOROOT=/root/goroot' >> /root/.bash_profile
+RUN echo 'export GOPATH=/root/gopath' >> /root/.bash_profile
+RUN echo 'export PATH=$PATH:$GOROOT/bin:$GOPATH/bin' >> /root/.bash_profile
+ENV GOROOT /root/goroot
+ENV GOPATH /root/gopath
+ENV PATH $PATH:$GOROOT/bin:$GOPATH/bin
 
-RUN go get github.com/revel/cmd/revel
-RUN go get github.com/onsi/ginkgo/ginkgo
-RUN go get github.com/onsi/gomega
-RUN go get bitbucket.org/liamstask/goose/cmd/goose
+RUN echo 'go get github.com/revel/cmd/revel' | bash -l
+RUN echo 'go get github.com/onsi/ginkgo/ginkgo' | bash -l
+RUN echo 'go get github.com/onsi/gomega' | bash -l
+RUN echo 'go get bitbucket.org/liamstask/goose/cmd/goose' | bash -l
 
 
 # Define default command.
