@@ -13,11 +13,9 @@ RUN useradd docker
 USER docker
 WORKDIR /home/docker
 
-RUN whoami
-
 # Setup Node.js
 # Install nvm
-RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.22.2/install.sh | bash
+RUN git clone https://github.com/creationix/nvm.git ~/.nvm && cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`
 RUN echo '[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh' >> ~/.bashrc
 RUN source ~/.nvm/nvm.sh
 
