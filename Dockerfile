@@ -7,6 +7,7 @@ RUN yum -y install epel-release; yum clean all
 RUN yum -y groupinstall "Development Tools";
 RUN yum -y install git
 RUN yum -y install mercurial
+RUN yum -y install openssl-devel
 RUN yum clean all
 
 
@@ -60,6 +61,15 @@ RUN echo 'go get github.com/revel/cmd/revel' | bash -l
 RUN echo 'go get github.com/onsi/ginkgo/ginkgo' | bash -l
 RUN echo 'go get github.com/onsi/gomega' | bash -l
 RUN echo 'go get bitbucket.org/liamstask/goose/cmd/goose' | bash -l
+
+
+# Setup MySQL (5.6.21)
+WORKDIR /tmp
+RUN wget http://downloads.mysql.com/archives/get/file/MySQL-5.6.21-1.el7.x86_64.rpm-bundle.tar
+RUN tar -xvf MySQL-5.6.21-1.el7.x86_64.rpm-bundle.tar
+RUN rpm -Uvh MySQL-client-5.6.21-1.el7.x86_64.rpm
+RUN rpm -Uvh MySQL-server-5.6.21-1.el7.x86_64.rpm
+WORKDIR /root
 
 
 # Define default command.
